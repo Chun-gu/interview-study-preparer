@@ -1,3 +1,30 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"]
+  "extends": ["next/core-web-vitals", "prettier"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "type",
+          "unknown"
+        ],
+        "pathGroups": [
+          { "pattern": "react", "group": "external", "position": "before" }
+        ],
+        "pathGroupsExcludedImportTypes": [],
+        "newlines-between": "always",
+        "warnOnUnassignedImports": true,
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
 }
