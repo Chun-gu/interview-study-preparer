@@ -18,15 +18,14 @@ export async function GET() {
 
     if (!res.ok) throw Error
 
-    const data = (await res.json()) as Array<{
-      thread: { id: string; name: string }
-    }>
-    const dates = data.map((data) => ({
-      id: data.thread.id,
-      name: data.thread.name,
+    const data = (await res.json()) as Array<{ thread: StudyDate }>
+
+    const studyDates = data.map((datum) => ({
+      id: datum.thread.id,
+      name: datum.thread.name,
     }))
 
-    return NextResponse.json({ dates }, { status: 200 })
+    return NextResponse.json({ studyDates }, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },
