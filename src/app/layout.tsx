@@ -1,6 +1,7 @@
 import localFont from 'next/font/local'
 
 import './globals.css'
+import Provider from './provider'
 
 import type { Metadata } from 'next'
 
@@ -38,7 +39,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="kr">
-      <body className={pretendard.className}>{children}</body>
+      <body className={pretendard.className}>
+        <Provider>{children}</Provider>
+      </body>
     </html>
   )
 }
