@@ -21,19 +21,20 @@ export async function GET(request: Request, { params: { id } }: Params) {
     if (!res.ok) throw Error
 
     const data = (await res.json()) as Array<{
+      id: string
       content: string
-      author: { global_name: string }
+      author: { id: string; global_name: string }
     }>
 
-    const name = new Set<string>()
-    const questions: Array<string> = []
+    const name = new Map<string, string>()
+    const questions: Array<{ id: string; content: string }> = []
 
-    data.forEach(({ content, author: { global_name } }) => {
-      questions.push(content)
-      name.add(global_name)
+    data.forEach(({ id, content, author: { id: authorId, global_name } }) => {
+      questions.push({ id, content })
+      if (!name.has(authorId)) name.set(authorId, global_name)
     })
 
-    const names = Array.from(name)
+    const names = Array.from(name.entries()).map(([id, name]) => ({ id, name }))
 
     return NextResponse.json({ names, questions }, { status: 200 })
   } catch (error) {
