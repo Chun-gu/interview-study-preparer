@@ -1,28 +1,26 @@
 import { NextResponse } from 'next/server'
 
+import { serverSideFetch } from '../_lib/serverSideFetch'
+
 export async function GET() {
   try {
-    const res = await fetch(
-      `${process.env.DISCORD_API_ENDPOINT}/channels/${process.env.INTERVIEW_QUESTIONS_CHANNEL_ID}/messages`,
+    const res = await serverSideFetch(
+      `/channels/${process.env.INTERVIEW_QUESTIONS_CHANNEL_ID}/messages`,
       {
         method: 'GET',
-        headers: {
-          Authorization: `Bot ${process.env.DISCORD_BOT_API_KEY}`,
-          'Content-Type': 'application/json; charset=UTF-8',
-          'User-Agent':
-            'DiscordBot (https://github.com/chun-gu/interview-study-preparer, 1.0.0)',
-        },
         cache: 'no-store',
       },
     )
 
-    if (!res.ok) throw Error
+    if (!res.ok) throw new Error()
 
-    const data = (await res.json()) as Array<{ thread: StudyDate }>
+    const data = (await res.json()) as Array<{
+      thread: { id: string; name: string }
+    }>
 
     const studyDates = data.map((datum) => ({
       id: datum.thread.id,
-      name: datum.thread.name,
+      date: datum.thread.name,
     }))
 
     return NextResponse.json({ studyDates }, { status: 200 })
