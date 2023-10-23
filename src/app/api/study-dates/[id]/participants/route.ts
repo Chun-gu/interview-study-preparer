@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 
+import { authorNameTable } from '@/app/api/_lib/authorNameTable'
 import { serverSideFetch } from '@/app/api/_lib/serverSideFetch'
 
 type Params = { params: { id: string } }
@@ -20,8 +21,10 @@ export async function GET(request: Request, { params: { id } }: Params) {
     const participant = new Map<string, string>()
 
     data.forEach(({ author: { id: authorId, global_name, username } }) => {
-      if (!participant.has(authorId))
-        participant.set(authorId, global_name || username)
+      if (!participant.has(authorId)) {
+        const authorName = authorNameTable[authorId] || username || global_name
+        participant.set(authorId, authorName)
+      }
     })
 
     const participants = Array.from(participant.entries()).map(
