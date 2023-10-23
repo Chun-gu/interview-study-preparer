@@ -12,6 +12,7 @@ export default function Provider({ children }: { children: ReactNode }) {
         defaultOptions: {
           queries: {
             staleTime: Infinity,
+            retry: false,
           },
         },
       }),
