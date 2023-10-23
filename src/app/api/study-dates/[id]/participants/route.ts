@@ -14,13 +14,14 @@ export async function GET(request: Request, { params: { id } }: Params) {
     if (!res.ok) throw Error
 
     const data = (await res.json()) as Array<{
-      author: { id: string; global_name: string }
+      author: { id: string; global_name: string; username: string }
     }>
 
     const participant = new Map<string, string>()
 
-    data.forEach(({ author: { id: authorId, global_name } }) => {
-      if (!participant.has(authorId)) participant.set(authorId, global_name)
+    data.forEach(({ author: { id: authorId, global_name, username } }) => {
+      if (!participant.has(authorId))
+        participant.set(authorId, global_name || username)
     })
 
     const participants = Array.from(participant.entries()).map(
