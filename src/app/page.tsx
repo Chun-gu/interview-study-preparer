@@ -1,101 +1,98 @@
 'use client'
 
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
+
+import ParticipantInput from '@/components/ParticipantInput'
+import ParticipantList from '@/components/ParticipantList'
+import QuestionInput from '@/components/QuestionInput'
+import QuestionList from '@/components/QuestionList'
+import RefreshButton from '@/components/RefreshButton'
+import ResultListItem from '@/components/ResultListItem'
+import StartButton from '@/components/StartButton'
+import StudyDateSelect from '@/components/StudyDateSelect'
+import useParticipants from '@/hooks/useParticipants'
+import useQuestions from '@/hooks/useQuestions'
 
 export default function Home() {
-  const [studyDates, setStudyDates] = useState<Array<StudyDate>>([])
-  const [names, setNames] = useState([])
-  const [questions, setQuestions] = useState([])
+  const [dateId, setDateId] = useState('')
+  const [results, setResults] = useState<Array<Result>>([])
+  const resultSectionRef = useRef<HTMLHeadingElement>(null)
 
-  useEffect(() => {
-    const abortController = new AbortController()
+  const { refetchParticipants, isRefetchingParticipants } =
+    useParticipants(dateId)
+  const { refetchQuestions, isRefetchingQuestions } = useQuestions(dateId)
 
-    async function getStudyDates() {
-      try {
-        const res = await fetch('/api/study-dates', {
-          method: 'GET',
-          signal: abortController.signal,
-        })
-        if (!res.ok) throw Error
-
-        const { studyDates } = await res.json()
-        setStudyDates(studyDates)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    getStudyDates()
-
-    return () => {
-      abortController.abort()
-    }
-  }, [])
-
-  async function onChange(e: ChangeEvent<HTMLSelectElement>) {
-    const dateId = e.currentTarget.value
-
-    try {
-      const res = await fetch(`/api/study-dates/${dateId}/names-questions`, {
-        method: 'GET',
-      })
-      if (!res.ok) throw Error
-
-      const { names, questions } = await res.json()
-      setNames(names)
-      setQuestions(questions)
-    } catch (error) {
-      console.error(error)
-    }
+  function onSelectDateId(dateId: string) {
+    setDateId(dateId)
+    setResults([])
   }
+
+  useLayoutEffect(() => {
+    if (results.length !== 0) {
+      resultSectionRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [results])
 
   return (
     <>
-      <header className="border-b py-4 text-center text-2xl font-extrabold">
+      <header className="border-b py-4 text-center text-3xl font-extrabold">
         면접 스터디 사전 준비
       </header>
+
       <main className="m-auto max-w-[375px] p-4">
-        <section className="mb-2">
-          <h2 className="text-lg font-bold">일자 선택</h2>
-          <label htmlFor="studyDates" className="sr-only">
-            일자를 선택하세요.
-          </label>
-          <select
-            name="studyDates"
-            id="studyDates"
-            onChange={onChange}
-            className="rounded-md bg-gray-200 p-1">
-            {studyDates.map((studyDate) => (
-              <option key={studyDate.id} value={studyDate.id}>
-                {studyDate.name}
-              </option>
-            ))}
-          </select>
+        <section className="mb-4">
+          <h2 className="mb-1 h-8 text-xl font-bold">일자 선택</h2>
+          <StudyDateSelect onSelect={onSelectDateId} />
         </section>
-        <section className="mb-2">
-          <h2 className="text-lg font-bold">면접 참여자</h2>
-          <ul>
-            {names.map((name) => (
-              <li key={name} className="rounded-md bg-yellow-200 px-2 py-1">
-                <input
-                  type="text"
-                  defaultValue={name}
-                  className="bg-yellow-200"
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section className="mb-2">
-          <h2 className="text-lg font-bold">질문 목록</h2>
-          <ul>
-            {questions.map((question) => (
-              <li key={question}>
-                <p>{question}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <button>시작</button>
+
+        {dateId && (
+          <>
+            <section className="mb-4">
+              <div className="mb-1 flex h-8 items-center justify-between">
+                <div className="flex h-full gap-2">
+                  <h2 className="text-xl font-bold">참여자 목록</h2>
+                  <RefreshButton
+                    onClick={() => refetchParticipants()}
+                    isRefetching={isRefetchingParticipants}>
+                    참여자 목록 새로고침
+                  </RefreshButton>
+                </div>
+                <ParticipantInput />
+              </div>
+              <ParticipantList dateId={dateId} />
+            </section>
+
+            <section className="mb-4">
+              <div className="mb-1 flex h-8 items-center gap-2">
+                <h2 className="text-xl font-bold">질문 목록</h2>
+                <RefreshButton
+                  onClick={() => refetchQuestions()}
+                  isRefetching={isRefetchingQuestions}>
+                  질문 목록 새로고침
+                </RefreshButton>
+              </div>
+              <QuestionInput />
+              <QuestionList dateId={dateId} />
+            </section>
+
+            <StartButton
+              setResults={setResults}
+              className="w-full rounded-md bg-green-500 p-2 font-bold tracking-widest text-white disabled:bg-gray-300">
+              준비 완료!
+            </StartButton>
+          </>
+        )}
+
+        {results.length !== 0 && (
+          <section key={dateId} ref={resultSectionRef} className="mt-4">
+            <h2 className="mb-2 text-center text-xl font-bold">결과</h2>
+            <ol className="flex flex-col gap-2">
+              {results.map((result) => (
+                <ResultListItem key={result.participant.id} {...result} />
+              ))}
+            </ol>
+          </section>
+        )}
       </main>
     </>
   )
