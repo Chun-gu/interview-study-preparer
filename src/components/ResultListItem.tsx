@@ -6,7 +6,7 @@ export default function ResultListItem({ participant, questions }: Props) {
       <span className="shrink-0 self-start p-2 font-bold">
         {participant.name}
       </span>
-      <ul className="flex flex-col gap-1">
+      <ul className="flex grow flex-col gap-1">
         {questions.map((question) => (
           <li
             key={question.id}
