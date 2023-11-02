@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 
 import { serverSideFetch } from '../_lib/serverSideFetch'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: Request) {
   try {
     const res = await serverSideFetch(
