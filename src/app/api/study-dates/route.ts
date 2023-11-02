@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 import { serverSideFetch } from '../_lib/serverSideFetch'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const res = await serverSideFetch(
       `/channels/${process.env.INTERVIEW_QUESTIONS_CHANNEL_ID}/messages`,
