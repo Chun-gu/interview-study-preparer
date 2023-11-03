@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 
 import { serverSideFetch } from '@/app/api/_lib/serverSideFetch'
 
+import type { Question } from '@/types'
+
 type Params = { params: { id: string } }
 
 export async function GET(request: Request, { params: { id } }: Params) {

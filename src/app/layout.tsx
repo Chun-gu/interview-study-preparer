@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import localFont from 'next/font/local'
 
 import './globals.css'
@@ -26,17 +28,14 @@ const pretendard = localFont({
   ],
   adjustFontFallback: 'Arial',
 })
+
 export const metadata: Metadata = {
   title: '면접 스터디 사전 준비 서비스',
   description:
     '원활한 면접 스터디 진행을 위해 순서 배치와 문제 배분을 도와주는 서비스입니다.',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="kr">
       <body className={pretendard.className}>

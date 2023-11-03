@@ -1,10 +1,12 @@
-import { ComponentProps, Dispatch, SetStateAction } from 'react'
+import type { ComponentProps, Dispatch, SetStateAction } from 'react'
 
 import useParticipants from '@/hooks/useParticipants'
 import useQuestions from '@/hooks/useQuestions'
 import useStudyDates from '@/hooks/useStudyDates'
 import { shuffle } from '@/lib/utils'
 import { useGetDateId } from '@/store'
+
+import type { Result } from '@/types'
 
 type Props = ComponentProps<'button'> & {
   setResults: Dispatch<SetStateAction<Array<Result>>>

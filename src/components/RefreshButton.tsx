@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 
 import RefreshIcon from '@/assets/icons/refresh.svg'
 import { cn } from '@/lib/utils'

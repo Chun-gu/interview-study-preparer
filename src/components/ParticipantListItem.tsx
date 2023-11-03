@@ -5,6 +5,8 @@ import MinusIcon from '@/assets/icons/minus.svg'
 import PencilIcon from '@/assets/icons/pencil.svg'
 import { useDeleteParticipant, useUpdateParticipant } from '@/store'
 
+import type { Participant } from '@/types'
+
 type Props = Participant
 
 export default function ParticipantListItem({ id, name }: Props) {

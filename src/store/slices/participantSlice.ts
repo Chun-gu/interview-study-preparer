@@ -1,4 +1,5 @@
-import { StateCreator } from 'zustand'
+import type { Participant } from '@/types'
+import type { StateCreator } from 'zustand'
 
 export interface ParticipantSlice {
   participants: Array<Participant>

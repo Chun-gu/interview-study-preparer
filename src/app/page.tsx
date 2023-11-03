@@ -13,6 +13,8 @@ import StudyDateSelect from '@/components/StudyDateSelect'
 import useParticipants from '@/hooks/useParticipants'
 import useQuestions from '@/hooks/useQuestions'
 
+import type { Result } from '@/types'
+
 export default function Home() {
   const [dateId, setDateId] = useState('')
   const [results, setResults] = useState<Array<Result>>([])

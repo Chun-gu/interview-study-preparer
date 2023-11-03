@@ -1,4 +1,5 @@
-import { StateCreator } from 'zustand'
+import type { Question } from '@/types'
+import type { StateCreator } from 'zustand'
 
 export interface QuestionSlice {
   questions: Array<Question>

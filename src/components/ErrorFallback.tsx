@@ -1,4 +1,4 @@
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query'
+import { type QueryObserverResult, RefetchOptions } from '@tanstack/react-query'
 
 import { cn } from '@/lib/utils'
 

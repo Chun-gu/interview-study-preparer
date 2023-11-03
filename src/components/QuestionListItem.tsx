@@ -7,6 +7,8 @@ import { useDeleteQuestion, useUpdateQuestion } from '@/store'
 
 import AutoResizingTextarea from './ui/AutoResizingTextarea'
 
+import type { Question } from '@/types'
+
 type Props = Question
 
 export default function QuestionListItem({ id, content }: Props) {

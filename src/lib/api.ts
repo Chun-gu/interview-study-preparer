@@ -1,3 +1,5 @@
+import type { Participant, Question, StudyDate } from '@/types'
+
 export async function getStudyDates(): Promise<Array<StudyDate>> {
   try {
     const res = await fetch('/api/study-dates', {

@@ -1,3 +1,5 @@
+import type { Result } from '@/types'
+
 type Props = Result
 
 export default function ResultListItem({ participant, questions }: Props) {

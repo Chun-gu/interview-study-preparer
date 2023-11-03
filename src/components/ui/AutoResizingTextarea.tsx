@@ -1,13 +1,11 @@
 'use client'
 
-import {
-  ComponentPropsWithoutRef,
-  forwardRef,
-  useLayoutEffect,
-  useRef,
-} from 'react'
+import { forwardRef, useLayoutEffect, useRef } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { cn } from '@/lib/utils'
+
+import type { Writable } from '@/types'
 
 const AutoResizingTextarea = forwardRef<
   HTMLTextAreaElement,
