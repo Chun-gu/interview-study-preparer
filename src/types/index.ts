@@ -1,6 +1,6 @@
-type StudyDate = { id: string; date: string }
-type Participant = { id: string; name: string }
-type Question = { id: string; content: string }
-type Result = { participant: Participant; questions: Array<Question> }
+export type StudyDate = { id: string; date: string }
+export type Participant = { id: string; name: string }
+export type Question = { id: string; content: string }
+export type Result = { participant: Participant; questions: Array<Question> }
 
-type Writable<T> = { -readonly [K in keyof T]: T[K] }
+export type Writable<T> = { -readonly [K in keyof T]: T[K] }
