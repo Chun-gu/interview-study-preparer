@@ -21,7 +21,7 @@
         "pathGroups": [
           { "pattern": "react", "group": "external", "position": "before" }
         ],
-        "pathGroupsExcludedImportTypes": [],
+        "pathGroupsExcludedImportTypes": ["type"],
         "newlines-between": "always",
         "warnOnUnassignedImports": true,
         "alphabetize": {

@@ -1,7 +1,7 @@
-import type { ComponentProps } from 'react'
-
 import RefreshIcon from '@/assets/icons/refresh.svg'
 import { cn } from '@/lib/utils'
+
+import type { ComponentProps } from 'react'
 
 type Props = ComponentProps<'button'> & { isRefetching?: boolean }
 
