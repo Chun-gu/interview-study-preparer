@@ -36,13 +36,16 @@ export default function StudyDateSelect({ onSelect }: Props) {
 
   return (
     <div className="flex h-8 w-1/2 items-center gap-1">
+      <label htmlFor="studyDates" className="sr-only">
+        일자를 선택하세요.
+      </label>
       <select
         name="studyDates"
         id="studyDates"
         onChange={onChange}
-        defaultValue={'placeholder'}
+        defaultValue=""
         className="min-w-0 cursor-pointer self-stretch rounded-md bg-gray-100">
-        <option value={'placeholder'} disabled>
+        <option value="" disabled aria-hidden="true">
           일자를 선택하세요.
         </option>
         {studyDates?.map((studyDate) => (
